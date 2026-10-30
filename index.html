@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4eb">
+  <meta name="description" content="Ruang Sela, tempat cerita digital, kreator, dan hal-hal kecil di internet menemukan ruangnya.">
+  <title>Ruang Sela — cerita dari internet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f4eb;
+      --ink: #21352d;
+      --muted: #66746b;
+      --green: #245c47;
+      --coral: #e9684b;
+      --yellow: #f0c458;
+      --line: #dedfd4;
+      --serif: "DM Serif Display", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner, .main, .footer-inner { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .wordmark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 19px; }
+    .wordmark-mark { display: grid; width: 30px; height: 30px; place-items: center; background: var(--coral); color: white; border-radius: 50% 50% 50% 10px; font-family: var(--serif); font-size: 20px; }
+    .nav { display: flex; align-items: center; gap: 30px; }
+    .nav a { font-size: 13px; font-weight: 600; text-decoration: none; }
+    .nav a:hover, .text-link:hover { color: var(--coral); }
+    .nav .nav-tiktok { padding: 10px 15px; background: var(--green); color: white; border-radius: 3px; }
+
+    .main { padding-bottom: 80px; }
+    .hero { display: grid; grid-template-columns: 0.94fr 1.06fr; align-items: center; gap: 55px; padding: 52px 0 66px; }
+    .eyebrow { margin: 0 0 17px; color: var(--coral); font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 470px; margin-bottom: 20px; font: 400 62px/1.02 var(--serif); letter-spacing: 0; }
+    .hero-copy { max-width: 405px; margin-bottom: 26px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .button-link { display: inline-flex; align-items: center; gap: 13px; padding: 12px 0; color: var(--green); font-size: 13px; font-weight: 700; text-decoration: none; }
+    .button-link span { display: grid; width: 28px; height: 28px; place-items: center; background: var(--yellow); border-radius: 50%; font-size: 18px; }
+    .hero-art { position: relative; min-width: 0; }
+    .hero-art img { display: block; width: 100%; aspect-ratio: 1.22; object-fit: cover; border-radius: 3px 74px 3px 3px; }
+    .image-note { position: absolute; right: -15px; bottom: 20px; padding: 12px 16px; background: var(--yellow); color: var(--ink); font: 17px var(--serif); transform: rotate(2deg); }
+    .hero-index { position: absolute; top: -19px; left: -20px; display: grid; width: 56px; height: 56px; place-items: center; background: var(--coral); color: white; border: 5px solid var(--paper); border-radius: 50%; font: 18px var(--serif); }
+
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+    .section-heading h2 { margin: 0; font: 400 37px/1.1 var(--serif); }
+    .section-heading p { max-width: 320px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .stories { padding: 38px 0 72px; border-top: 1px solid var(--line); }
+    .story-tools { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 23px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter { min-height: 36px; padding: 8px 13px; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; }
+    .filter[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: white; }
+    .search { width: min(250px, 100%); min-height: 38px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 2px; background: #fbfaf6; color: var(--ink); font-size: 13px; }
+    .search:focus, .tiktok-input:focus { outline: 2px solid var(--green); outline-offset: 2px; }
+    .story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; }
+    .story-card { min-width: 0; }
+    .story-card[hidden] { display: none; }
+    .story-image { display: block; width: 100%; aspect-ratio: 1.48; object-fit: cover; border-radius: 3px; }
+    .story-meta { display: flex; align-items: center; gap: 9px; margin: 17px 0 9px; color: var(--muted); font-size: 11px; }
+    .story-category { color: var(--coral); font-weight: 700; text-transform: uppercase; letter-spacing: .7px; }
+    .story-card h3 { margin-bottom: 9px; font: 400 25px/1.12 var(--serif); }
+    .story-card p { margin-bottom: 12px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .text-link { padding: 0; border: 0; background: none; color: var(--green); cursor: pointer; font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .empty-state { padding: 30px 0; color: var(--muted); font-size: 14px; }
+
+    .tiktok-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 44px; padding: 35px; background: #e7eee5; border-radius: 3px; }
+    .tiktok-copy { align-self: center; }
+    .tiktok-copy h2 { margin-bottom: 13px; font: 400 36px/1.08 var(--serif); }
+    .tiktok-copy > p:not(.eyebrow) { margin-bottom: 20px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .tiktok-form { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tiktok-input { flex: 1 1 210px; min-width: 0; min-height: 42px; padding: 10px 12px; border: 1px solid #cbd6c9; border-radius: 2px; background: #fbfaf6; font-size: 12px; }
+    .tiktok-submit { min-height: 42px; padding: 10px 14px; border: 0; border-radius: 2px; background: var(--coral); color: white; cursor: pointer; font-size: 12px; font-weight: 700; }
+    .embed-note, .embed-status { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .embed-status:empty { display: none; }
+    .tiktok-player { display: grid; min-height: 310px; place-items: center; overflow: hidden; background: #f6f4eb; border: 1px dashed #cbd6c9; border-radius: 3px; }
+    .player-placeholder { max-width: 250px; padding: 22px; color: var(--muted); text-align: center; font-size: 13px; line-height: 1.6; }
+    .player-placeholder strong { display: block; margin-bottom: 7px; color: var(--ink); font: 22px var(--serif); }
+    .tiktok-player blockquote { margin: 0 !important; }
+
+    .about { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding: 55px 0 0; }
+    .about h2 { margin-bottom: 8px; font: 400 27px var(--serif); }
+    .about p { max-width: 570px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .footer { border-top: 1px solid var(--line); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0; color: var(--muted); font-size: 11px; }
+    .footer-inner a { color: var(--green); font-weight: 700; text-decoration: none; }
+
+    .dialog { width: min(620px, calc(100% - 32px)); max-height: min(82vh, 760px); padding: 0; border: 0; border-radius: 3px; background: var(--paper); color: var(--ink); box-shadow: 0 18px 70px #15251c4d; }
+    .dialog::backdrop { background: #16241dcc; }
+    .dialog-content { padding: 30px; overflow-y: auto; }
+    .dialog-close { float: right; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; font-size: 20px; }
+    .dialog h2 { margin: 20px 42px 12px 0; font: 400 38px/1.1 var(--serif); }
+    .dialog-body { color: var(--muted); font-size: 15px; line-height: 1.8; white-space: pre-line; }
+    .dialog-meta { color: var(--coral); font-size: 11px; font-weight: 700; letter-spacing: .7px; text-transform: uppercase; }
+
+    @media (max-width: 760px) {
+      .header-inner, .main, .footer-inner { width: min(100% - 32px, 560px); }
+      .header-inner { min-height: 66px; }
+      .nav { gap: 16px; }
+      .nav a { font-size: 12px; }
+      .nav .nav-tiktok { padding: 9px 11px; }
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 42px 0 53px; }
+      h1 { max-width: 460px; font-size: 53px; }
+      .hero-art { margin: 0 9px 0 15px; }
+      .hero-art img { aspect-ratio: 1.28; }
+      .section-heading { align-items: start; flex-direction: column; gap: 9px; }
+      .section-heading h2 { font-size: 33px; }
+      .story-tools { align-items: stretch; flex-direction: column-reverse; }
+      .search { width: 100%; }
+      .story-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+      .story-card h3 { font-size: 22px; }
+      .tiktok-section { grid-template-columns: 1fr; gap: 24px; padding: 24px 18px; }
+      .tiktok-copy h2 { font-size: 32px; }
+      .tiktok-player { min-height: 280px; }
+    }
+
+    @media (max-width: 430px) {
+      .nav { gap: 11px; }
+      .nav a { font-size: 11px; }
+      .wordmark { font-size: 17px; }
+      .wordmark-mark { width: 27px; height: 27px; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-image { aspect-ratio: 1.7; }
+      .about { align-items: start; flex-direction: column; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="wordmark" href="#home" aria-label="Ruang Sela, halaman utama"><span class="wordmark-mark" aria-hidden="true">r</span>ruang sela</a>
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="#cerita">Cerita</a>
+        <a href="#tentang">Tentang</a>
+        <a class="nav-tiktok" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Catatan dari dunia digital</p>
+        <h1 id="hero-title">Cerita kecil, jejak digital.</h1>
+        <p class="hero-copy">Tempat singgah untuk ide, kreator, dan hal-hal sederhana yang bikin kita berhenti menggulir sebentar.</p>
+        <a class="button-link" href="#cerita">Jelajahi cerita <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art">
+        <span class="hero-index" aria-hidden="true">01</span>
+        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Cahaya pagi jatuh di meja dapur yang hangat" fetchpriority="high">
+        <span class="image-note">pelan-pelan saja</span>
+      </div>
+    </section>
+
+    <section class="stories" id="cerita" aria-labelledby="stories-title">
+      <div class="section-heading">
+        <h2 id="stories-title">Temukan ceritamu.</h2>
+        <p>Potongan ide, pengalaman, dan inspirasi yang terasa dekat dengan keseharian.</p>
+      </div>
+      <div class="story-tools">
+        <div class="filters" role="group" aria-label="Filter kategori">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">Semua</button>
+          <button class="filter" type="button" data-filter="kreator" aria-pressed="false">Kreator</button>
+          <button class="filter" type="button" data-filter="cerita" aria-pressed="false">Cerita</button>
+          <button class="filter" type="button" data-filter="digital" aria-pressed="false">Digital</button>
+        </div>
+        <label class="visually-hidden" for="story-search">Cari cerita</label>
+        <input class="search" id="story-search" type="search" placeholder="Cari cerita..." autocomplete="off">
+      </div>
+      <div class="story-grid" id="story-grid">
+        <article class="story-card" data-category="kreator" data-search="dapur kecil ide besar kreator resep video memasak">
+          <img class="story-image" src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Bahan segar untuk masakan rumahan" loading="lazy">
+          <div class="story-meta"><span class="story-category">Kreator</span><span>·</span><span>5 menit baca</span></div>
+          <h3>Dapur kecil, ide besar</h3>
+          <p>Bagaimana video resep sederhana membuat masak terasa lebih dekat dan menyenangkan.</p>
+          <button class="text-link read-story" type="button" data-title="Dapur kecil, ide besar" data-category="Kreator" data-body="Tidak perlu dapur luas atau peralatan mahal untuk mulai berbagi. Banyak kreator resep justru mengajak kita masuk ke ruang yang akrab: meja makan, kompor rumah, dan bahan yang mudah ditemukan.\n\nDari sana, sebuah video pendek bisa menjadi undangan. Kita melihat prosesnya, mencoba versinya sendiri, lalu mungkin membagikan hasilnya kepada orang lain. Internet terasa hangat saat pengetahuan sehari-hari dibagikan tanpa banyak jarak.\n\nMulai saja dari satu resep yang paling sering kamu buat. Cerita yang jujur sering lebih menarik daripada produksi yang sempurna.">Baca ceritanya ↗</button>
+        </article>
+        <article class="story-card" data-category="cerita" data-search="belajar berhenti menggulir jeda media sosial perhatian">
+          <img class="story-image" src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Matahari terbit di balik perbukitan" loading="lazy">
+          <div class="story-meta"><span class="story-category">Cerita</span><span>·</span><span>4 menit baca</span></div>
+          <h3>Belajar berhenti menggulir</h3>
+          <p>Jeda kecil di antara video ternyata bisa memberi ruang bagi pikiran untuk bernapas.</p>
+          <button class="text-link read-story" type="button" data-title="Belajar berhenti menggulir" data-category="Cerita" data-body="Kadang kita membuka aplikasi hanya untuk satu hal, lalu sadar waktu sudah berjalan jauh. Bukan berarti semua waktu di internet terbuang. Ada ide yang kita temukan, teman yang kita sapa, dan tawa yang datang tanpa rencana.\n\nYang membantu adalah memberi jeda yang disengaja. Letakkan ponsel saat minum, berjalan sebentar, atau menyimpan video yang ingin ditonton nanti. Tidak perlu aturan rumit; cukup pilihan kecil yang terasa baik untuk diri sendiri.\n\nRuang kosong bukan musuh dari dunia digital. Kadang dari situlah cerita kita sendiri mulai terdengar.">Baca ceritanya ↗</button>
+        </article>
+        <article class="story-card" data-category="digital" data-search="satu video menyalakan percakapan komunitas tiktok internet">
+          <img class="story-image" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Seseorang membuat catatan sambil bekerja dengan laptop" loading="lazy">
+          <div class="story-meta"><span class="story-category">Digital</span><span>·</span><span>6 menit baca</span></div>
+          <h3>Satu video, banyak percakapan</h3>
+          <p>Di balik sebuah video pendek, sering ada komunitas yang tumbuh dari rasa ingin tahu.</p>
+          <button class="text-link read-story" type="button" data-title="Satu video, banyak percakapan" data-category="Digital" data-body="Sebuah video pendek jarang berhenti pada layar. Seseorang menambahkan konteks, orang lain berbagi pengalaman yang mirip, dan percakapan baru pun bermula. Inilah bagian internet yang menarik: satu sudut pandang bisa membuka banyak pintu.\n\nDi TikTok, format video membuat cerita mudah ditemukan dan dibagikan. Namun, hubungan yang berarti tetap dibangun oleh orang-orang di balik layar: kreator yang mau berbagi dan penonton yang datang dengan rasa ingin tahu.\n\nKamu bisa menempel tautan video TikTok di bagian bawah halaman ini untuk menontonnya langsung di blog.">Baca ceritanya ↗</button>
+        </article>
+      </div>
+      <p class="empty-state" id="empty-state" hidden>Tidak ada cerita yang cocok. Coba kata pencarian lain.</p>
+    </section>
+
+    <section class="tiktok-section" id="tiktok" aria-labelledby="tiktok-title">
+      <div class="tiktok-copy">
+        <p class="eyebrow">Dari TikTok ke sini</p>
+        <h2 id="tiktok-title">Satu video, satu ruang.</h2>
+        <p>Tempel tautan video TikTok publik untuk memutarnya di halaman ini. Tautan lengkap dari tiktok.com/@.../video/... diperlukan untuk embed.</p>
+        <form class="tiktok-form" id="tiktok-form">
+          <label class="visually-hidden" for="tiktok-url">Tautan video TikTok</label>
+          <input class="tiktok-input" id="tiktok-url" type="url" placeholder="https://www.tiktok.com/@.../video/..." required>
+          <button class="tiktok-submit" type="submit">Tampilkan video</button>
+        </form>
+        <p class="embed-note">Video tetap disajikan oleh TikTok. Ketersediaan embed mengikuti pengaturan video dan TikTok.</p>
+        <p class="embed-status" id="embed-status" role="status" aria-live="polite"></p>
+      </div>
+      <div class="tiktok-player" id="tiktok-player" aria-label="Pemutar video TikTok">
+        <div class="player-placeholder"><strong>Ruang untuk videomu</strong>Masukkan tautan video publik di samping untuk mulai menonton.</div>
+      </div>
+    </section>
+
+    <section class="about" id="tentang">
+      <div>
+        <p class="eyebrow">Sedikit tentang kami</p>
+        <h2>Internet juga punya sisi personal.</h2>
+        <p>Ruang Sela adalah blog kecil untuk merayakan cerita yang tumbuh di internet dan orang-orang yang membuatnya terasa dekat.</p>
+      </div>
+      <a class="button-link" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">Temukan cerita di TikTok <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2026 Ruang Sela</span>
+      <a href="#home">Kembali ke atas ↑</a>
+    </div>
+  </footer>
+
+  <dialog class="dialog" id="story-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-content">
+      <button class="dialog-close" id="dialog-close" type="button" aria-label="Tutup cerita">×</button>
+      <p class="dialog-meta" id="dialog-meta"></p>
+      <h2 id="dialog-title"></h2>
+      <p class="dialog-body" id="dialog-body"></p>
+    </div>
+  </dialog>
+
+  <script>
+    const filterButtons = document.querySelectorAll(".filter");
+    const storyCards = document.querySelectorAll(".story-card");
+    const storySearch = document.querySelector("#story-search");
+    const emptyState = document.querySelector("#empty-state");
+    let activeCategory = "all";
+
+    function updateStories() {
+      const query = storySearch.value.trim().toLocaleLowerCase("id");
+      let visibleCount = 0;
+
+      storyCards.forEach((card) => {
+        const matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+        const matchesQuery = card.dataset.search.toLocaleLowerCase("id").includes(query);
+        card.hidden = !matchesCategory || !matchesQuery;
+        if (!card.hidden) visibleCount += 1;
+      });
+
+      emptyState.hidden = visibleCount > 0;
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeCategory = button.dataset.filter;
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        updateStories();
+      });
+    });
+    storySearch.addEventListener("input", updateStories);
+
+    const storyDialog = document.querySelector("#story-dialog");
+    document.querySelectorAll(".read-story").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelector("#dialog-meta").textContent = button.dataset.category;
+        document.querySelector("#dialog-title").textContent = button.dataset.title;
+        document.querySelector("#dialog-body").textContent = button.dataset.body;
+        storyDialog.showModal();
+      });
+    });
+    document.querySelector("#dialog-close").addEventListener("click", () => storyDialog.close());
+
+    const tiktokForm = document.querySelector("#tiktok-form");
+    const tiktokInput = document.querySelector("#tiktok-url");
+    const tiktokPlayer = document.querySelector("#tiktok-player");
+    const embedStatus = document.querySelector("#embed-status");
+
+    tiktokForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      let videoUrl;
+
+      try {
+        videoUrl = new URL(tiktokInput.value.trim());
+      } catch {
+        embedStatus.textContent = "Masukkan tautan video TikTok yang valid.";
+        return;
+      }
+
+      const trustedHosts = ["tiktok.com", "www.tiktok.com", "m.tiktok.com"];
+      const videoMatch = videoUrl.pathname.match(/\/video\/(\d+)/);
+      if (!trustedHosts.includes(videoUrl.hostname) || !videoMatch) {
+        embedStatus.textContent = "Gunakan tautan lengkap dari tiktok.com/@nama/video/..., bukan tautan pendek.";
+        return;
+      }
+
+      const canonicalUrl = `${videoUrl.origin}${videoUrl.pathname}`;
+      tiktokPlayer.replaceChildren();
+      const embed = document.createElement("blockquote");
+      embed.className = "tiktok-embed";
+      embed.setAttribute("cite", canonicalUrl);
+      embed.setAttribute("data-video-id", videoMatch[1]);
+      embed.style.maxWidth = "605px";
+      embed.style.minWidth = "280px";
+      const embedSection = document.createElement("section");
+      embed.append(embedSection);
+      tiktokPlayer.append(embed);
+
+      const embedScript = document.createElement("script");
+      embedScript.async = true;
+      embedScript.src = "https://www.tiktok.com/embed.js";
+      tiktokPlayer.append(embedScript);
+      embedStatus.textContent = "Memuat video dari TikTok...";
+      embedScript.addEventListener("load", () => {
+        embedStatus.textContent = "Video dimuat dari TikTok.";
+      });
+      embedScript.addEventListener("error", () => {
+        embedStatus.textContent = "Video tidak dapat dimuat. Coba buka langsung di TikTok.";
+        const link = document.createElement("a");
+        link.href = canonicalUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Buka video di TikTok ↗";
+        link.className = "text-link";
+        tiktokPlayer.append(link);
+      });
+    });
+  </script>
+  <style>
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  </style>
+</body>
+</html>
